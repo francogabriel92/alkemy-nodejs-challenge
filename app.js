@@ -12,7 +12,7 @@ const swaggerDocument = require('./docs/swagger.json')
 
 db.connect()
 
-app.use(cors)
+app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(middleware.requestLogger)
