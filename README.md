@@ -8,7 +8,7 @@ La consigna puede leerse en el siguiente documento: https://drive.google.com/fil
 
 ## Demo Funcional ⚙️
 
-Una demo funcional del proyecto pued eencontrarse en: https://alkemy-backend-francogabriel92.herokuapp.com/
+Una demo funcional del proyecto puede encontrarse en: https://alkemy-backend-francogabriel92.herokuapp.com/
 
 ### Documentación 📋
 
