@@ -14,7 +14,7 @@ Una demo funcional del proyecto puede encontrarse en: https://alkemy-backend-fra
 
 Se puede acceder a la documentación de la API desde el endpoint "/docs" (https://alkemy-backend-francogabriel92.herokuapp.com/docs)
 
-### Endpoints de prueba 
+### Endpoints de prueba 🕹
 
 Solo se añadió el endpoint "/populate" para que, en caso de estar vacía la base de datos, se pueda completar con algunos datos de personajes, películas y géneros para realizar las pruebas que se soliciten. 
 
