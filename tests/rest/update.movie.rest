@@ -1,0 +1,9 @@
+PUT http://localhost:4000/movies
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZyYW5jbyIsInBhc3N3b3JkSGFzaCI6IiQyYiQxMCRrUExJVGpEUzZDU2ZvS3RSWmxWbERlTGJDcmFoMndONGdvZGVVdVgySDFFWDNtalNpdkgxeSIsIm1haWwiOiJmcmFuY29AbWFpbC5jb20iLCJpYXQiOjE2MzIyMzA3MTQsImV4cCI6MTY2Mzc2NjcxNH0.RIo8Yydq7OwKB4KIJm3xEQvcHbo0Nqop9Uu3te2BiFQ
+
+{
+  "name": "Prueba",
+  "rating": 2,
+  "genre": "animated"
+}

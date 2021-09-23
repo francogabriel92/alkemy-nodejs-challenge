@@ -1,0 +1,16 @@
+POST http://localhost:4000/characters
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZyYW5jbyIsInBhc3N3b3JkSGFzaCI6IiQyYiQxMCRrUExJVGpEUzZDU2ZvS3RSWmxWbERlTGJDcmFoMndONGdvZGVVdVgySDFFWDNtalNpdkgxeSIsIm1haWwiOiJmcmFuY29AbWFpbC5jb20iLCJpYXQiOjE2MzIyMzA3MTQsImV4cCI6MTY2Mzc2NjcxNH0.RIo8Yydq7OwKB4KIJm3xEQvcHbo0Nqop9Uu3te2BiFQ
+
+{
+  "name": "Jorobado",
+  "imageUrl": "https://static.wikia.nocookie.net/disney-spanish/images/f/f3/Clipart_grande_taille2.png/revision/latest?cb=20130512192334&path-prefix=es",
+  "age": 40,
+  "weight": 80.2,
+  "history": "Un jorobado de Disney",
+  "movies": [
+    "Jorobado de Notredame",
+    "Una pelicula random",
+    "Otra pelicula más"
+  ]
+}

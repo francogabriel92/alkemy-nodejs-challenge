@@ -1,0 +1,798 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Disney API (NodeJs challenge for Alkemy Labs) 🚀",
+    "description": "This is an API to explore the world of Disney, which will allow you to know and modify the characters that compose it and understand in which films they participated.",
+    "version": "1.0.0"
+  },
+  "host": "alkemy-backend-francogabriel92.herokuapp.com",
+  "basePath": "/api",
+  "tags": [
+    {
+      "name": "Characters",
+      "description": "This endpoint handle character-related requests."
+    },
+    {
+      "name": "Movies",
+      "description": "This endpoint handle movie-related requests."
+    },
+    {
+      "name": "Auth",
+      "description": "This endpoint handle register and login."
+    }
+  ],
+  "paths": {
+    "/characters": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Characters"
+        ],
+        "summary": "Returns all characters from the database or filters them according to query parameters showing a complete character description with all its fields.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/token"
+          },
+          {
+            "in": "query",
+            "name": "name",
+            "type": "string",
+            "description": "Name of the character to search.",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "age",
+            "type": "integer",
+            "description": "Filter the characters by age.",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "movies",
+            "type": "integer",
+            "description": "Filter the characters by the movie id.",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON object containing all characters imageUrl and name if not query is passed or a full character description if a query parameter is passed.",
+            "schema": {
+              "$ref": "#/components/schemas/characterComplete"
+            }
+          },
+          "401": {
+            "description": "Token validation error."
+          },
+          "404": {
+            "description": "No character found."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      },
+      "post": {
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Characters"
+        ],
+        "summary": "Create a new character in DB",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/token"
+          },
+          {
+            "in": "body",
+            "name": "character",
+            "description": "The character to create.",
+            "schema": {
+              "$ref": "#/components/schemas/characterToCreate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON object containing the character created.",
+            "schema": {
+              "$ref": "#/components/schemas/characterComplete"
+            }
+          },
+          "400": {
+            "description": "Name must be unique."
+          },
+          "401": {
+            "description": "Token validation error."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      },
+      "put": {
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Characters"
+        ],
+        "summary": "Update a character in DB.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/token"
+          },
+          {
+            "in": "body",
+            "name": "character",
+            "description": "The character to update",
+            "schema": {
+              "$ref": "#/components/schemas/characterToUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON object containing the character with updated data.",
+            "schema": {
+              "$ref": "#/components/schemas/characterComplete"
+            }
+          },
+          "401": {
+            "description": "Token validation error."
+          },
+          "404": {
+            "description": "No character found to update, check the name field."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      },
+      "delete": {
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Characters"
+        ],
+        "summary": "Delete a character in DB.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/token"
+          },
+          {
+            "in": "body",
+            "name": "character",
+            "description": "The character to delete",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON object containing the deleted character.",
+            "schema": {
+              "$ref": "#/components/schemas/characterComplete"
+            }
+          },
+          "401": {
+            "description": "Token validation error."
+          },
+          "404": {
+            "description": "No character found to delete, check the name field."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      }
+    },
+    "/movies": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Movies"
+        ],
+        "summary": "Returns all movies from DB or filter them according to query parameters showing a complete character description with all its fields.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/token"
+          },
+          {
+            "in": "query",
+            "name": "name",
+            "type": "string",
+            "description": "Name of the movie to search.",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "genre",
+            "type": "integer",
+            "description": "Filter the movies by genre id.",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order",
+            "type": "string",
+            "enum": [
+              "ASC",
+              "DES"
+            ],
+            "description": "Sort order by creation date.",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON object containing all movies imageUrl, name and creation date if not query is passed or a full movie description if a query parameter is passed.",
+            "schema": {
+              "$ref": "#/components/schemas/movieComplete"
+            }
+          },
+          "401": {
+            "description": "Token validation error."
+          },
+          "404": {
+            "description": "No movie found."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      },
+      "post": {
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Movies"
+        ],
+        "summary": "Create a new movie in DB.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/token"
+          },
+          {
+            "in": "body",
+            "name": "movie",
+            "description": "The movie to create.",
+            "schema": {
+              "$ref": "#/components/schemas/movieToCreate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON object containing the movie created.",
+            "schema": {
+              "$ref": "#/components/schemas/movieCreated"
+            }
+          },
+          "401": {
+            "description": "Token validation error."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      },
+      "put": {
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Movies"
+        ],
+        "summary": "Update a movie in DB.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/token"
+          },
+          {
+            "in": "body",
+            "name": "movie",
+            "description": "The movie to update",
+            "schema": {
+              "$ref": "#/components/schemas/movieToUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON object containing the movie with updated data.",
+            "schema": {
+              "$ref": "#/components/schemas/movieUpdated"
+            }
+          },
+          "401": {
+            "description": "Token validation error."
+          },
+          "404": {
+            "description": "No movie found to update, check the name field."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      },
+      "delete": {
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Movies"
+        ],
+        "summary": "Delete a movie in DB.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/token"
+          },
+          {
+            "in": "body",
+            "name": "character",
+            "description": "The movie to delete",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON object containing the deleted movie.",
+            "schema": {
+              "$ref": "#/components/schemas/movieCreated"
+            }
+          },
+          "401": {
+            "description": "Token validation error."
+          },
+          "404": {
+            "description": "No movie found to delete, check the name field."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Register a new user in DB.",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "user",
+            "schema": {
+              "$ref": "#/components/schemas/userToRegister"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON object with containing the username and authorization token.",
+            "schema": {
+              "$ref": "#/components/schemas/userResponse"
+            }
+          },
+          "400": {
+            "description": "Unique validation fails, check username and password."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Login service.",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "user",
+            "schema": {
+              "$ref": "#/components/schemas/userToLogin"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON object with containing the username and authorization token.",
+            "schema": {
+              "$ref": "#/components/schemas/userResponse"
+            }
+          },
+          "401": {
+            "description": "Wrong credentials"
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "responses": null,
+    "parameters": {
+      "token": {
+        "name": "token",
+        "in": "header",
+        "description": "Authentication token",
+        "required": true
+      }
+    },
+    "schemas": {
+      "characterComplete": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "imageUrl": {
+              "type": "string",
+              "format": "url"
+            },
+            "name": {
+              "type": "string"
+            },
+            "age": {
+              "type": "integer"
+            },
+            "weight": {
+              "type": "number",
+              "format": "float"
+            },
+            "history": {
+              "type": "string"
+            },
+            "movies": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "characterPartial": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "imageUrl": {
+              "type": "string",
+              "format": "url"
+            },
+            "name": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "characterToCreate": {
+        "type": "object",
+        "properties": {
+          "imageUrl": {
+            "type": "string",
+            "format": "url"
+          },
+          "name": {
+            "type": "string"
+          },
+          "age": {
+            "type": "integer"
+          },
+          "weight": {
+            "type": "number",
+            "format": "float"
+          },
+          "history": {
+            "type": "string"
+          },
+          "movies": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "characterToUpdate": {
+        "type": "object",
+        "properties": {
+          "imageUrl": {
+            "type": "string",
+            "format": "url"
+          },
+          "name": {
+            "type": "string"
+          },
+          "age": {
+            "type": "integer"
+          },
+          "weight": {
+            "type": "number",
+            "format": "float"
+          },
+          "history": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "movieComplete": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "imageUrl": {
+              "type": "string",
+              "format": "url"
+            },
+            "name": {
+              "type": "string"
+            },
+            "rating": {
+              "type": "integer",
+              "minimun": 1,
+              "maximun": 5
+            },
+            "creationDate": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "Genres": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "Characters": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "movieUpdated": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "imageUrl": {
+              "type": "string",
+              "format": "url"
+            },
+            "name": {
+              "type": "string"
+            },
+            "rating": {
+              "type": "integer",
+              "minimun": 1,
+              "maximun": 5
+            },
+            "creationDate": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "Genres": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "movieToCreate": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "imageUrl": {
+            "type": "string",
+            "format": "url"
+          },
+          "createDate": {
+            "type": "string",
+            "formate": "date"
+          },
+          "rating": {
+            "type": "integer",
+            "minimun": 1,
+            "maximun": 5
+          },
+          "genre": {
+            "type": "string"
+          }
+        }
+      },
+      "movieCreated": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "imageUrl": {
+            "type": "string",
+            "format": "url"
+          },
+          "rating": {
+            "type": "integer",
+            "minimun": 1,
+            "maximun": 5
+          },
+          "createDate": {
+            "type": "string",
+            "formate": "date-time"
+          }
+        }
+      },
+      "movieToUpdate": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "imageUrl": {
+            "type": "string",
+            "format": "url"
+          },
+          "rating": {
+            "type": "integer",
+            "minimun": 1,
+            "maximun": 5
+          },
+          "createDate": {
+            "type": "string",
+            "formate": "date-time"
+          }
+        }
+      },
+      "userToRegister": {
+        "type": "object",
+        "required": [
+          "name",
+          "mail",
+          "password"
+        ],
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string",
+            "format": "password"
+          },
+          "mail": {
+            "type": "string",
+            "format": "mail"
+          }
+        }
+      },
+      "userToLogin": {
+        "type": "object",
+        "required": [
+          "name",
+          "password"
+        ],
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string",
+            "format": "password"
+          }
+        }
+      },
+      "userResponse": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

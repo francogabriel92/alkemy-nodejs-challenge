@@ -1,0 +1,7 @@
+DELETE http://localhost:4000/movies
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZyYW5jbyIsInBhc3N3b3JkSGFzaCI6IiQyYiQxMCRrUExJVGpEUzZDU2ZvS3RSWmxWbERlTGJDcmFoMndONGdvZGVVdVgySDFFWDNtalNpdkgxeSIsIm1haWwiOiJmcmFuY29AbWFpbC5jb20iLCJpYXQiOjE2MzIxNzY2NTQsImV4cCI6MTY2MzcxMjY1NH0.D7FHGfBNdTXZs3Xjz7yVXE5Okvl214al9CCPuSxYDMk
+Content-Type: application/json
+
+{
+  "name": "spider-man"
+}
